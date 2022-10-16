@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import people from './data';
-import { FaChevronLeft, FaChevronRight, FaQuoteRight } from 'react-icons/fa';
+import ReviewEl from './ReviewEl'
 
 const Review = () => {
   const [index,setIndex]=useState(0);
-  const {name,job,image,text}=people[index];
 
   const checkNumber=(number)=>{
     if(number>people.length-1){
@@ -35,35 +34,28 @@ const Review = () => {
    if(randomNumber===index){
       return randomNumber+1;
    }
-   setIndex(checkNumber(randomNumber));
+   setIndex(checkNumber(randomNumber))
   }
 
+  const Reviews=people.map(review=>{
+   const {name,job,image,text}=review;
+   return <ReviewEl
+      name={name}
+      job={job}
+      image={image}
+      text={text}
+      addIndex={nextPerson}
+      subIndex={prevPerson}
+      randomIndex={randomPerson}
+   />
+  })
+
   return (
-      <article className='review'>
-         <div className='image-container'>
-            <img src={image} alt={name} className='person-image'/>
-            <span className='quote-icon'>
-               <FaQuoteRight/>
-            </span>
-         </div>
-         <h4 className='author'>{name}</h4>
-         <p className='job'>{job}</p>
-         <p className='info'>{text}</p>
-         <div className='button-container'>
-            <button className='prev-btn' onClick={prevPerson}>
-               <FaChevronLeft/>   
-            </button>
-
-            <button className='next-btn' onClick={nextPerson}>
-               <FaChevronRight/>   
-            </button>
-
-            <button className='random-btn' onClick={randomPerson}>
-               Surprise me
-            </button>
-         </div>
-      </article>
+     <div>
+       {Reviews}
+     </div>
   )
 };
 
 export default Review;
+
